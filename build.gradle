@@ -13,8 +13,12 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter:2.6.4'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.4'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:2.6.4'
+    implementation 'org.springframework.boot:spring-boot-devtools:2.6.4'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.4'
 }
 
 tasks.named('test') {
