@@ -1,0 +1,20 @@
+ifndef::snippets[]
+:snippets: .target/generated-snippets
+endif::[]
+
+= API document
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+
+== 사용자 API12412414
+
+=== 사용자 전체 조회
+==== curl 호출예시
+include::{snippets}/greeting-controller-test/샘플_테스트/curl-request.adoc/[]
+==== 응답명세
+include::{snippets}/greeting-controller-test/샘플_테스트/response-body.adoc/[]
