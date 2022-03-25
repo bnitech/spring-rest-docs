@@ -3,6 +3,8 @@ package com.bnitech.springrestdocs.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -33,6 +35,7 @@ class GreetingControllerTest {
   ) {
     this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
         .apply(documentationConfiguration(restDocumentation))
+        .alwaysDo(document("{class-name}/{method-name}", preprocessResponse(prettyPrint())))
         .build();
   }
 
@@ -45,7 +48,7 @@ class GreetingControllerTest {
     // region when
     final MvcResult result = mockMvc.perform(
         get("/greeting").queryParam("name", name)
-    ).andDo(document("index")).andReturn();
+    ).andReturn();
     // endregion
 
     // region then
