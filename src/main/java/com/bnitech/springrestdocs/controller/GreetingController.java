@@ -1,15 +1,19 @@
 package com.bnitech.springrestdocs.controller;
 
+import com.bnitech.springrestdocs.dto.GreetingResponse;
+import com.bnitech.springrestdocs.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class GreetingController {
 
-  @GetMapping("/greeting")
-  public String greeting(
-      @RequestParam(name = "name", required = false, defaultValue = "World") String name) {
-    return name;
+  final private UserService userService;
+
+  @GetMapping("/user/all")
+  public GreetingResponse getAllUser() {
+    return new GreetingResponse(userService.getUserInfoList());
   }
 }

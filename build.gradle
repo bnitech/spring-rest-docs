@@ -22,6 +22,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web:2.6.4'
     implementation 'org.springframework.boot:spring-boot-devtools:2.6.4'
 
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
     asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor:2.0.6.RELEASE'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.4'
@@ -42,6 +45,10 @@ asciidoctor {
     inputs.dir snippetsDir
     configurations 'asciidoctorExt'
     dependsOn test
+}
+
+asciidoctor.doFirst {
+    delete file('src/main/resources/static/docs')
 }
 
 task copyDocument(type: Copy) {

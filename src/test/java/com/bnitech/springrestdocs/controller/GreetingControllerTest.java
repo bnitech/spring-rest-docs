@@ -1,12 +1,16 @@
 package com.bnitech.springrestdocs.controller;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
+import com.bnitech.springrestdocs.dto.GreetingResponse;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,6 +32,9 @@ class GreetingControllerTest {
   @Autowired
   private MockMvc mockMvc;
 
+  @Autowired
+  private ObjectMapper objectMapper;
+
   @BeforeEach
   void setUp(
       WebApplicationContext webApplicationContext,
@@ -40,19 +47,25 @@ class GreetingControllerTest {
   }
 
   @Test
-  void 샘플_테스트() throws Exception {
+  void 유저_수_테스트() throws Exception {
     // region given
-    String name = "Dongbin";
+    int expectedUserCount = 5;
     // endregion
 
     // region when
-    final MvcResult result = mockMvc.perform(
-        get("/greeting").queryParam("name", name)
-    ).andReturn();
+    final MvcResult result = mockMvc.perform(get("/user/all")).andReturn();
     // endregion
 
     // region then
-    assertEquals(name, result.getResponse().getContentAsString());
+    assertNotNull(result.getResponse());
+    final GreetingResponse response = objectMapper.readValue(
+        result.getResponse().getContentAsByteArray(),
+        new TypeReference<>() {
+        }
+    );
+    assertNotNull(response);
+    assertNotNull(response.getUserInfo());
+    assertEquals(expectedUserCount, response.getUserInfo().size());
     // endregion
   }
 }
